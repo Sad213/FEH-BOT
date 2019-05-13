@@ -2,20 +2,14 @@ import pyautogui
 import os
 
 def test(imagen,threshold):
-    global parar,location,n_error,fase
-    
+    global parar,location,fase
     pos = pyautogui.locateOnScreen(location +'\\img\\'+ imagen,30,confidence= threshold)
     if pos == None:
-        n_error+=1
-        if n_error >= 5 :
-            print('Fallo')
-            parar = True
-        return
+        pass
+    else :
+        posx, posy = pyautogui.center(pos)
+        pyautogui.click(x=posx, y=posy)
         
-    posx, posy = pyautogui.center(pos)
-    pyautogui.click(x=posx, y=posy)
-
-    n_error = 0
     if fase < 7 :
         fase += 1
     else :
@@ -29,7 +23,6 @@ parar = False
 location = os.getcwd()
 n = 0
 fase = 1
-n_error = 0
 
 while parar == False:
     #paso1 pulsar la dificultad
@@ -52,7 +45,7 @@ while parar == False:
         test('final.png',0.6)
     #paso7 finalizar
     elif fase == 7:
-        test('ok.png',0.95)
+        test('ok.png',0.9)
         n+=1
         print(n)
     
