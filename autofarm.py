@@ -21,13 +21,14 @@ global parar,location,n_error,fase
 
 parar = False
 location = os.getcwd()
+dificultad = "lunatico"
 n = 0
 fase = 1
 
 while parar == False:
     #paso1 pulsar la dificultad
     if fase == 1 :
-        test('Infernal.png',0.95)
+        test(dificultad + '.png',0.95)
     #paso2 iniciar el mapa
     elif fase == 2 :
         test('fight.png',0.95)
