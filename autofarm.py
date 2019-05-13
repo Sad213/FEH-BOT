@@ -1,37 +1,58 @@
 import pyautogui
 import os
 
-global parar,location
-parar = False
-location = os.getcwd()
-
 def test(imagen,threshold):
-    global parar,location
+    global parar,location,n_error,fase
     
     pos = pyautogui.locateOnScreen(location +'\\img\\'+ imagen,30,confidence= threshold)
     if pos == None:
-        parar = True
-        print('Posible Fallo')
+        n_error+=1
+        if n_error >= 5 :
+            print('Fallo')
+            parar = True
+        return
         
     posx, posy = pyautogui.center(pos)
     pyautogui.click(x=posx, y=posy)
 
-n = 1
+    n_error = 0
+    if fase < 7 :
+        fase += 1
+    else :
+        fase = 1
+    
+
+#Main  
+global parar,location,n_error,fase
+
+parar = False
+location = os.getcwd()
+n = 0
+fase = 1
+n_error = 0
+
 while parar == False:
-    print(n)
     #paso1 pulsar la dificultad
-    test('Infernal.png',0.95)
+    if fase == 1 :
+        test('Infernal.png',0.95)
     #paso2 iniciar el mapa
-    test('fight.png',0.95)
+    elif fase == 2 :
+        test('fight.png',0.95)
     #paso3 saltar la intro
-    test('carga.png',0.65)
+    elif fase == 3 :
+        test('carga.png',0.65)
     #paso4 auto-battle
-    test('auto.png',0.99)
+    elif fase == 4 :
+        test('auto.png',0.99)
     #paso5 confirmar auto-battle
-    test('auto2.png',0.95)
+    elif fase == 5 :
+        test('auto2.png',0.95)
     #paso6 end
-    test('final.png',0.6)
+    elif fase == 6 :
+        test('final.png',0.6)
     #paso7 finalizar
-    test('ok.png',0.95)
-    n+=1
+    elif fase == 7:
+        test('ok.png',0.95)
+        n+=1
+        print(n)
     
